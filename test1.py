@@ -87,6 +87,12 @@ mask_letter=cv2.inRange(boundedimg,np.array([0,0,0],dtype="uint8"),np.array([70,
 output=cv2.bitwise_and(boundedimg,boundedimg,mask=mask_letter)
 showImage(output,"output letter")
 print("text: "+pytesseract.image_to_string(mask_letter))
+
+mask_letter=cv2.inRange(result,np.array([0,0,0],dtype="uint8"),np.array([70,70,70],dtype="uint8"))
+output=cv2.bitwise_and(result,result,mask=mask_letter)
+showImage(output,"warped")
+print("text: "+pytesseract.image_to_string(mask_letter))
+
 #print(pytesseract.image_to_string(cv2.imread("monitor-1.png")))
 #cv2.drawContours(img,[cnt],0,(0,255,0),3)
 #print(filename)
