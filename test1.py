@@ -50,7 +50,7 @@ def boundaryColor(image,boundaries):
 #numpy is bgr instead of rgb
 boundaries=[([250,195,26],[255,200,32])]
 
-img = cv2.imread("screeny.png")
+img = cv2.imread("mon-1.png")
 for (low, high) in boundaries:
     lower=np.array(low,dtype="uint8")
     higher=np.array(high,dtype="uint8")
@@ -74,13 +74,14 @@ for (low, high) in boundaries:
         max_y=max(max_y,y)
     box_rect=[[min_x,min_y],[max_x,min_y],[max_x,max_y],[min_x,max_y]]
     box_rect=np.int0(box_rect)
-    #rect2=cv2.drawContours(img,[box_rect],0,(0,255,0),3)
-    #showImage(rect2,"rect")
-
+    rect2=cv2.drawContours(img,[box_rect],0,(0,255,0),3)
+    showImage(rect2,"rect")
+#create image to warp to box of letter
 matrix=cv2.getPerspectiveTransform(box.astype(np.float32),box_rect.astype(np.float32))
 print(img.shape)
-result=cv2.warpPerspective(img,matrix,(img.shape[1],img.shape[0]))
+result=cv2.warpPerspective(img,matrix,(max_y-min_y,max_x-min_x))
 showImage(result,"results")
+
 boundedimg=img[min_y:max_y,min_x:max_x]
 showImage(boundedimg,"bounded iamge")
 mask_letter=cv2.inRange(boundedimg,np.array([0,0,0],dtype="uint8"),np.array([70,50,30],dtype="uint8"))
